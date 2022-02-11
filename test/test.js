@@ -32,5 +32,15 @@ describe("Unit Testing", function() {
     )
   })
 
-  
+  it("should find a time where two trains are in the station", function(done) {
+    server
+      .get("/trains/next")
+      .expect("Content-type",/json/)
+      .expect(200)
+      .end(function(err,res) {
+        res.status.should.equal(200);
+        done();
+      })
+  })
+
 })
