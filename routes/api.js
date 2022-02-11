@@ -3,7 +3,7 @@ const trains = require("../data/trains");
 module.exports = function (app) {
 
   app.post("/trains", (req, res) => {
-    const TrainID = req.body.TrainID;
+    const TrainID = req.body.TrainID.toUpperCase();
     const Times = req.body.Times;
 
     trains[TrainID] = Times;
@@ -11,8 +11,13 @@ module.exports = function (app) {
     res.json({success: "Train schedule was added."})
   })
 
+  app.get("/trains/next", (req, res) => {
+    console.log("==== API /trains/next hit ====");
+    res.json("Next train info coming soon.")
+  })
+
   app.get("/trains/:id", (req, res) => {
-    const id = req.params.id;
+    const id = req.params.id.toUpperCase();
 
     if (id.length != 4) {
       res.status(400).json({error: "Invalid Train ID provided." });
@@ -27,11 +32,6 @@ module.exports = function (app) {
     if (!trains[id]) {
       res.status(400).json({error: "Invalid Train ID provided."})
     }
-  })
-
-  app.get("/trains/next", (req, res) => {
-    console.log("==== API /trains/next hit ====");
-    res.json("Next train info coming soon.")
   })
 
   app.get("/sampledata/:toggle", (req, res) => {

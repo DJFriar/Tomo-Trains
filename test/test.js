@@ -3,8 +3,8 @@ const should = require("should");
 
 const server = supertest.agent("http://localhost:5600");
 
-describe("Unit Testing", () => {
-  it("should add a train schedule", () => {
+describe("Unit Testing", function() {
+  it("should add a train schedule", function(done) {
     server
       .post("/trains")
       .send({
@@ -13,24 +13,24 @@ describe("Unit Testing", () => {
       })
       .expect("Content-type",/json/)
       .expect(200)
-      .end((err,res) => {
+      .end(function(err,res) {
         res.status.should.equal(200);
-        res.body.error.should.equal(false);
         done();
       }
     )
   })
 
-  it("should find a train", () => {
+  it("should find a train", function(done) {
     server
-      .get("/trains/TEST")
+      .get("/trains/test")
       .expect("Content-type",/json/)
       .expect(200)
-      .end((err,res) => {
+      .end(function(err,res) {
         res.status.should.equal(200);
-        res.body.error.should.equal(false);
         done();
       }
     )
   })
+
+  
 })
