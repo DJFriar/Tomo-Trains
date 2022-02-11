@@ -6,10 +6,9 @@ module.exports = function (app) {
     const TrainID = req.body.TrainID;
     const Times = req.body.Times;
 
-    console.log("==== API /trains hit ====");
     trains[TrainID] = Times;
 
-    res.json("We are not currently accepting new train lines.")
+    res.json({success: "Train schedule was added."})
   })
 
   app.get("/trains/:id", (req, res) => {
@@ -18,7 +17,16 @@ module.exports = function (app) {
     if (id.length != 4) {
       res.status(400).json({error: "Invalid Train ID provided." });
     }
-    res.status(400).json({error: "Invalid Train ID provided."})
+
+    if (trains[id]) {
+      schedule = trains[id]
+      stringResponse = "Train " + id + " arrives at " + schedule;
+      res.json({success: stringResponse})
+    }
+
+    if (!trains[id]) {
+      res.status(400).json({error: "Invalid Train ID provided."})
+    }
   })
 
   app.get("/trains/next", (req, res) => {
