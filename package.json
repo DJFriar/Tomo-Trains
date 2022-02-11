@@ -1,0 +1,16 @@
+{
+  "name": "tomo-trains",
+  "version": "1.0.0",
+  "description": "Train Station Manager",
+  "main": "app.js",
+  "scripts": {
+    "dev":"nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tommy Craft",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "nconf": "^0.11.3"
+  }
+}
