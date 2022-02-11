@@ -4,13 +4,17 @@
   "description": "Train Station Manager",
   "main": "app.js",
   "scripts": {
-    "dev":"nodemon app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tommy Craft",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "nconf": "^0.11.3"
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.0",
+    "should": "^13.2.3",
+    "supertest": "^6.2.2"
   }
 }
