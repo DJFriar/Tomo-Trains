@@ -12,7 +12,7 @@ module.exports = function (app) {
   })
 
   app.get("/trains/next", (req, res) => {
-    const mergedTimes = Object.values(trains).flat(2);    
+    const mergedTimes = Object.values(trains).flat(2).sort();    
     const uniqueTimes = new Set(mergedTimes);
     const duplicateTimes = mergedTimes.filter(time => {
       if (uniqueTimes.has(time)) {
@@ -22,10 +22,38 @@ module.exports = function (app) {
       }
     })
 
-    if (duplicateTimes) {
-      res.json(duplicateTimes);
+    if (duplicateTimes.length > 0) {
+      res.json([duplicateTimes[0]]);
     } else {
       res.json({});
+    }
+  })
+
+  app.get("/trains/next/:time", (req, res) => {
+    const mergedTimes = Object.values(trains).flat(2).sort(); 
+    const requestedTime = req.params.time;
+    const twoTrainsAfterRequestTime = [];
+    const uniqueTimes = new Set(mergedTimes);
+
+    const duplicateTimes = mergedTimes.filter(time => {
+      if (uniqueTimes.has(time)) {
+        uniqueTimes.delete(time);
+      } else {
+        return time;
+      }
+    })
+
+    if (!duplicateTimes) {
+      res.json({});
+    } else {
+      if (requestedTime > duplicateTimes[duplicateTimes.length - 1]) {
+        res.json([duplicateTimes[0]]);
+      } else {
+        duplicateTimes.forEach(time => {
+          if (time > requestedTime) { twoTrainsAfterRequestTime.push(time) }
+        })
+        res.json(twoTrainsAfterRequestTime);
+      }
     }
   })
 
@@ -52,7 +80,7 @@ module.exports = function (app) {
 
     if (toggle === "enable") {
       trains["EUR6"] = ["1200", "1500", "1800", "2100"];
-      trains["X88B"] = ["0930", "1030", "1130"];
+      trains["X88B"] = ["0700", "1030", "1130"];
       trains["TX77"] = ["0100", "1500"];
       res.json({success: "Sample Data has been loaded."});
     }

@@ -12,7 +12,7 @@ require("./routes/api")(app);
 // LISTENER
 app.listen(PORT, () => {
   console.log(
-    "=== Listening on port %s. Go to http://localhost:%s in your browser.",
+    "=== Listening on port %s.",
     PORT,
     PORT
   )
